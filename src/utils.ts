@@ -69,11 +69,7 @@ export function getRandomInt(min: number, max: number): number {
 
 // Returns array of string cards
 export function asciiToStringCardsArray(asciiCardsArray: string[]): string[] {
-  let stringCardsArray: string[] = [];
-  for (let i = 0; i < asciiCardsArray.length; i++) {
-    stringCardsArray.push(asciiCardToStringCard(asciiCardsArray[i]));
-  }
-  return stringCardsArray;
+  return asciiCardsArray.map((card) => asciiCardToStringCard(card));
 }
 
 export function asciiCardToStringCard(ascii: string): string {
@@ -193,11 +189,7 @@ export function asciiCardToStringCard(ascii: string): string {
 
 // Returns array of ascii cards
 export function stringToAsciiCardsArray(stringCardsArray: { value: string; suit: string; }[]): string[] {
-  let asciiCardsArray: string[] = [];
-  for (let i = 0; i < stringCardsArray.length; i++) {
-    asciiCardsArray.push(stringCardToAsciiCard(stringCardsArray[i].value + stringCardsArray[i].suit));
-  }
-  return asciiCardsArray;
+  return stringCardsArray.map((card) => stringCardToAsciiCard(card.value + card.suit));
 }
 
 // For example convert Ad to A♦
@@ -337,7 +329,7 @@ export function createMockWebSocket(): WebSocket {
 
 export function getRandomBotName(currentRoomBotNames: string[]): string {
   for (let i = 0; i < randomNamesList.length; i++) {
-    const randomName = randomNamesList[getRandomInt(0, randomNamesList.length)];
+    const randomName = randomNamesList[getRandomInt(0, randomNamesList.length - 1)];
     if (!currentRoomBotNames.includes(randomName)) {
       return randomName;
     }
@@ -381,7 +373,7 @@ export function sendClientNotification(
       message: msg,
       translationKey: translationKey,
     }
-  }
+  };
   socket.send(JSON.stringify(response));
 }
 
